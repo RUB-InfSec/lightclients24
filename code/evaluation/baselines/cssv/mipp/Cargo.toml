@@ -1,0 +1,24 @@
+[package]
+name = "bls-mipp"
+version = "0.1.0"
+authors = ["swasilyev <swasilyev@gmail.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+ark-inner-products = { git = "https://github.com/w3f/ripp", branch = "tipa-verify-unfolded" }
+ark-ip-proofs = { git = "https://github.com/w3f/ripp", branch = "tipa-verify-unfolded" }
+ark-dh-commitments = { git = "https://github.com/w3f/ripp", branch = "tipa-verify-unfolded" }
+
+ark-std = { version = "0.2", default-features = false }
+ark-ff = { version = "0.2", default-features = false }
+ark-ec = { version = "0.2", default-features = false }
+ark-bls12-381 = { version = "0.2", features = [ "curve" ] }
+
+blake2 = { version = "0.9" }
+rand = "0.7"
+
+[features]
+print-trace = [ "ark-std/print-trace" ]
+parallel = [ "ark-ff/parallel", "ark-ec/parallel" ]

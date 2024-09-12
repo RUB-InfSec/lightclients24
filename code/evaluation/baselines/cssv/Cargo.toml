@@ -1,0 +1,6 @@
+[workspace]
+
+members = [
+    "bw6",
+    "mipp",
+]

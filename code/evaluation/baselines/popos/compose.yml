@@ -1,0 +1,76 @@
+services:
+  dishonest1: &prover
+    build: implementation
+    cpuset: 0-0
+    ports:
+      - "7771:3679"
+    environment: &env
+      NODE_ENV: production
+      PORT: 3679
+      HONEST: false
+      DUMMY: true
+      CHAIN_SIZE: 1024
+      COMMITTEE_SIZE: 128
+      treeDegree: 100
+    command: ["node", "dist/src/prover/server.js"]
+    volumes:
+      - ./dishonest1_data:/implementation/dist/src/store/data
+
+  dishonest2:
+    <<: *prover
+    cpuset: 1-1
+    ports:
+      - "7772:3679"
+    volumes:
+      - ./dishonest2_data:/implementation/dist/src/store/data
+
+  dishonest3:
+    <<: *prover
+    cpuset: 2-2
+    ports:
+      - "7773:3679"
+    volumes:
+      - ./dishonest3_data:/implementation/dist/src/store/data
+
+  dishonest4:
+    <<: *prover
+    cpuset: 3-3
+    ports:
+      - "7774:3679"
+    volumes:
+      - ./dishonest4_data:/implementation/dist/src/store/data
+
+  dishonest5:
+    <<: *prover
+    cpuset: 4-4
+    ports:
+      - "7775:3679"
+    volumes:
+      - ./dishonest5_data:/implementation/dist/src/store/data
+
+  dishonest6:
+    <<: *prover
+    cpuset: 5-5
+    ports:
+      - "7776:3679"
+    volumes:
+      - ./dishonest6_data:/implementation/dist/src/store/data
+
+  dishonest7:
+    <<: *prover
+    cpuset: 6-6
+    ports:
+      - "7777:3679"
+    volumes:
+      - ./dishonest7_data:/implementation/dist/src/store/data
+
+  honest:
+    <<: *prover
+    cpuset: 7-7
+    ports:
+      - "7770:3679"
+    environment:
+      <<: *env
+      HONEST: true
+    volumes:
+      - ./honest_data:/implementation/dist/src/store/data

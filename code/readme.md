@@ -1,0 +1,2 @@
+- Please find our proposed light client scheme's implementation (Section 5) in `implementation`.
+- Please find code to re-create our evaluation (Section 6) in `evaluation`.
