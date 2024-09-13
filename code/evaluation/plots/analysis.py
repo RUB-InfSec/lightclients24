@@ -53,6 +53,10 @@ def numpy_fillna(data):
     return out
 
 
+def mean(data):
+    return np.array([np.mean(ll) if ll.size else 0 for ll in data])
+
+
 if __name__ == "__main__":
     directory = '.'
     plot_proof_size = True
@@ -134,7 +138,7 @@ if __name__ == "__main__":
         fullnodes = []
         for j in range(8):
             try:
-                f = open(os.path.join(directory, f'popos_128_wan_fullnode_{j}_{2**i}'), 'r')
+                f = open(os.path.join(directory, f'popos_128_wan_fullnode_{j}_{2**i}.log'), 'r')
             except FileNotFoundError:
                 continue
             else:
@@ -291,7 +295,7 @@ if __name__ == "__main__":
 
         # PoPoS
         x = 2**np.arange(1, len(popos_fullnodes)+1)
-        y = numpy_fillna(popos_fullnodes).mean(axis=1)/1e9
+        y = mean(numpy_fillna(popos_fullnodes))/1e9
         plot_data2(x, y, 'PoPoS', 'green')
         # extrapolate
         missing = allX[np.where(allX >= x[-1])]

@@ -187,8 +187,8 @@ Additionally, if the experiments are performed on separate machines (in the WAN 
 
         docker compose build --no-cache && docker compose up
   - Issue requests from the client as described below.
-  - **For each** `<i>` from 1 to 7, move `evaluation/baselines/popos/dishonest<i>_data/timer_<LENGTH>.log` to `evaluation/plots` and rename it to `popos_128_wan_fullnode_<i>_<LENGTH>`.
-  - Move `evaluation/baselines/popos/honest_data/timer_<LENGTH>.log` to `evaluation/plots` and rename it to `popos_128_wan_fullnode_0_<LENGTH>`.
+  - **For each** `<i>` from 1 to 7, move `evaluation/baselines/popos/dishonest<i>_data/timer_<LENGTH>.log` to `evaluation/plots` and rename it to `popos_128_wan_fullnode_<i>_<LENGTH>.log`.
+  - Move `evaluation/baselines/popos/honest_data/timer_<LENGTH>.log` to `evaluation/plots` and rename it to `popos_128_wan_fullnode_0_<LENGTH>.log`.
 - To benchmark for more than $2^{10}$ epochs, set the desired length(s) in line 30 in `evaluation/baselines/popos/implementation/src/prover/router.ts`.
   Note that, in this case, the initial dummy data generation will also take longer.
 
