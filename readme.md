@@ -221,7 +221,7 @@ yarn install
 yarn build
 node dist/benchmark/multiple-server.js
 ```
-  - The experiment is done when the client exits.
+  The experiment is done when the client exits.
 - To be able to generate the plots, for all `<length>`, move each file `evaluation/baselines/popos/implementation/results/dummy-data-8-128-<length>-100-1.json` to the server machine's `evaluation/plots` directory and rename it to `popos_128_wan_results_<length>.json`.
 
 ### 3. Experiments for CSSV
