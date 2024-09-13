@@ -182,14 +182,20 @@ Additionally, if the experiments are performed on separate machines (in the WAN 
     If the server machine has less than 8 CPU cores, modify the CPUs assigned to each of the containers in `compose.yml` (`cpuset` fields).
     (The benchmarks in our paper used 16 independent cores per container.)
   - Run the following command from `evaluation/baselines/popos`.
-    The process is complete once all 7 "dishonest" containers output `Server listening on port 3679`.
-    The first time, all dummy data is generated, which might take up to 15 minutes on an Apple M2 machine.
+    The process is complete **once all 7 "dishonest" containers output `Server listening on port 3679`**.
+    The first time, all dummy data is generated, which might take up to 25 minutes on an Apple M2 machine.
 
         docker compose build --no-cache && docker compose up
   - Issue requests from the client as described below.
 
-- **For each** `<i>` from 1 to 7, rename `evaluation/baselines/popos/dishonest<i>_data/popos_128_wan_fullnode_X.log` to `popos_128_wan_fullnode_<i>.log` and move it to `evaluation/plots`.
-- Rename `evaluation/baselines/popos/honest_data/popos_128_wan_fullnode_X.log` to `popos_128_wan_fullnode_0.log` and move it to `evaluation/plots`.
+- After the client is done for all 10 `<LENGTH>`s, run the following command from `evaluation`:
+
+        mv baselines/popos/honest_data/popos_128_wan_fullnode_X.log plots/popos_128_wan_fullnode_0.log
+        for (( i=1; i<=7; i++ ))
+        do
+            mv baselines/popos/dishonest"$i"_data/popos_128_wan_fullnode_X.log plots/popos_128_wan_fullnode_"$i".log
+        done
+
 - To benchmark for more than $2^{10}$ epochs, set the desired length(s) in line 30 in `evaluation/baselines/popos/implementation/src/prover/router.ts`.
   Note that, in this case, the initial dummy data generation will also take longer.
 
@@ -199,10 +205,11 @@ Additionally, if the experiments are performed on separate machines (in the WAN 
       mkdir results
 - If the server is **not** running on the same machine as the client but is instead reachable at the IP address `<IP-ADDRESS>` (eg, over a WAN), set up SSH port forwarding by running the following commands (assuming a working SSH connection from the client machine to the server machine).
 
-        for (( i=7770; i<=7777; i++ ))
-        do
-            ssh -fN -L $i:127.0.0.1:$i <IP-ADDRESS>
-        done
+      ipaddr=<IP-ADDRESS>
+      for (( i=7770; i<=7777; i++ ))
+      do
+          ssh -fN -L $i:127.0.0.1:$i $ipaddr
+      done
 - **For each** power-of-two chain length `<LENGTH>` from $2^{10} = 1024$ down to $2^2 = 2$ (ie, the following steps are repeated 10 times):
   - In line 17 in `evaluation/baselines/popos/implementation/benchmark/multiple-server.ts`, change the chain length (`size` variable) to `<LENGTH>`.
   - After the **server machine** is set up for this chain length, execute the following commands from `evaluation/baselines/popos/implementation` to start the experiment:
@@ -239,6 +246,11 @@ Then, run the below commands from `evaluation/plots` on the server machine.
 
     docker build -t lightclientplots .
     docker run -it -v .:/data lightclientplots
+
+**Note:** The PoPoS baseline is highly sensitive to network conditions.
+If the benchmarks were performed on the same machine, the measured "network latency" in these experiments will be close to 0--there is not WAN communication after all.
+Hence, if the benchmarks are performed on the same machine instead of a WAN, the performance of PoPoS is hardly representative of its real-world behavior.
+See our paper for details.
 
 ### Troubleshooting
 - If the installation instructions provided here do not work on a given system (eg, on Windows), please also refer to the official documentation of the dependencies ([Docker](https://docs.docker.com/desktop/install/windows-install/), [Go](https://go.dev/doc/install), [Node.js](https://nodejs.org/en/download/package-manager), [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm), [yarn 1.22](https://classic.yarnpkg.com/lang/en/docs/install/)).

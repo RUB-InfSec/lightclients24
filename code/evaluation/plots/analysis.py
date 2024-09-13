@@ -43,20 +43,6 @@ def plot_data3(x, y, color='black'):
     plt.plot(x, y, marker='.', color=color, linestyle=':')
 
 
-def numpy_fillna(data):
-    # function to fill in missing values if we only did a partial popos experiment
-    # from https://stackoverflow.com/a/32043366
-    lens = np.array([len(i) for i in data])
-    mask = np.arange(lens.max()) < lens[:, None]
-    out = np.zeros(mask.shape)
-    out[mask] = np.concatenate(data)
-    return out
-
-
-def mean(data):
-    return np.array([np.mean(ll) if ll.size else 0 for ll in data])
-
-
 if __name__ == "__main__":
     directory = '.'
     plot_proof_size = True
@@ -126,7 +112,7 @@ if __name__ == "__main__":
     # Parse PoPoS results
     popos = []
     popos_fullnodes = []
-    regex = re.compile(r'\d+\s\".*\"\s(\d+\.\d+.*)')
+    regex = re.compile(r'(\d+)\s\".*\"\s(\d+\.\d+.*)')
     for i in range(1, 19):
         try:
             f = open(os.path.join(directory, f'popos_128_wan_results_{2**i}.json'), 'r')
@@ -135,24 +121,25 @@ if __name__ == "__main__":
         else:
             with f:
                 popos += json.load(f)
-        fullnodes = []
-        for j in range(8):
-            try:
-                f = open(os.path.join(directory, f'popos_128_wan_fullnode_{j}_{2**i}.log'), 'r')
-            except FileNotFoundError:
-                continue
-            else:
-                with f:
-                    total = 0
-                    length = 0
-                    for line in f:
-                        ma = regex.match(line)
-                        if ma is not None:
-                            time, = ma.groups()
-                            total += nanoseconds(time)
-                            length += 1
-                    fullnodes.append(total/length)
-        popos_fullnodes.append(fullnodes)
+    for j in range(8):
+        try:
+            f = open(os.path.join(directory, f'popos_128_wan_fullnode_{j}.log'), 'r')
+        except FileNotFoundError:
+            continue
+        else:
+            with f:
+                total = np.zeros(19)
+                calls = np.zeros(19)
+                for line in f:
+                    ma = regex.match(line)
+                    if ma is not None:
+                        chain, time = ma.groups()
+                        logm = int(np.log2(int(chain)))
+                        total[logm] += nanoseconds(time)
+                        calls[logm] += 1
+                # compute average where possible
+                total[total != 0] = total[total != 0]/calls[total != 0]
+                popos_fullnodes.append(total)
 
 
     # Parse CSSV results
@@ -294,12 +281,14 @@ if __name__ == "__main__":
         plot_data2(x, y, 'CSSV', 'blue')
 
         # PoPoS
-        x = 2**np.arange(1, len(popos_fullnodes)+1)
-        y = mean(numpy_fillna(popos_fullnodes))/1e9
-        plot_data2(x, y, 'PoPoS', 'green')
+        x = 2**np.arange(len(popos_fullnodes[0]))[1:]
+        # average of the 8 provers
+        y = np.array(popos_fullnodes).mean(axis=0)[1:]/1e9
+        plot_data2(x[y != 0], y[y != 0], 'PoPoS', 'green')
         # extrapolate
-        missing = allX[np.where(allX >= x[-1])]
-        plot_data3(missing, [y[-1]]*len(missing), 'green')
+        largest = int(np.log2(x[y != 0][-1]))-1
+        missing = allX[largest:]
+        plot_data3(missing, [y[largest]]*len(missing), 'green')
 
         plt.xscale('log', base=2)
         plt.yscale('log')

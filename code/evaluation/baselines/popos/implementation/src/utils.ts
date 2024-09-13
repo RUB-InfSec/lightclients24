@@ -105,7 +105,7 @@ export type RequestResult = {
 };
 
 
-const REQUEST_TIMEOUT = 10 * 1000;
+const REQUEST_TIMEOUT = 15 * 1000;
 
 export async function handleHTTPSRequest(
   method: 'GET' | 'POST',
