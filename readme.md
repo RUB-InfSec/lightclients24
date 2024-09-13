@@ -179,8 +179,7 @@ ssh -fN -L 7890:127.0.0.1:7890 <IP-ADDRESS>
 ```
 ./tester_client 127.0.0.1 7890 10 50
 ```
-
-- The experiment is done when the client exits.
+  The experiment is done when the client exits.
 - The client's logs are available as `results.log` in the `evaluation/tester_client` directory.
   To be able to generate the plots, rename `results.log` to `ours_128_wan_results.log` and move it to the server machine's `evaluation/plots` directory (in the server's file system; **not** in the Docker container).
 
@@ -222,7 +221,7 @@ yarn install
 yarn build
 node dist/benchmark/multiple-server.js
 ```
-    The experiment is done when the client exits.
+  - The experiment is done when the client exits.
 - To be able to generate the plots, for all `<length>`, move each file `evaluation/baselines/popos/implementation/results/dummy-data-8-128-<length>-100-1.json` to the server machine's `evaluation/plots` directory and rename it to `popos_128_wan_results_<length>.json`.
 
 ### 3. Experiments for CSSV
