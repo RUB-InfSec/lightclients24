@@ -32,7 +32,7 @@ Our artifact has been tested on a dual 64-core AMD EPYC 7742 machine (as the ser
 ```
 
 ## How to use this artifact
-If needed, a mirror of this repository is available for download at the following URL: [link](https://1drv.ms/f/s!AsMByznOBlivg0GtR_FFK-djSJIR?e=Un6FDy).
+If needed, a mirror of this repository is available for download at the following URL: [link](https://www.dropbox.com/scl/fi/lplir62peov92t8o7ngbq/repo.zip?rlkey=h05z9nffu0bcgwfcmw8epejwo&st=opgzwd9e&dl=0).
 
 ### Implementation
 The Go code in `code/implementation` uses the elliptic curve cryptography library gnark-crypto in order to provide an implementation of our cryptographic protocol's basic primitive--the transitive siganture scheme.
@@ -54,7 +54,6 @@ In our paper we used dummy data of size up to $2^{20}$, which took our powerful 
 To avoid this runtime for testing purposes, in this repository, default values of $2^{10}$ are used.
 On an Apple M1 machine, generating this reduced amount of dummy data took up to 20 minutes for each experiment.
 We include instructions for increasing the data size to $2^{20}$ in order to replicate our paper's plots exactly.
-Additionally, we provide pre-generated dummy data for the PoPoS experiments (where this process takes the longest) at the following URL: [link](https://1drv.ms/f/s!AsMByznOBlivg0GtR_FFK-djSJIR?e=Un6FDy).
 
 ##### Dependencies
 We use Docker containers and, especially important for our WAN measurements, SSH tunnelling.
