@@ -95,7 +95,7 @@ type LightClientProof struct {
 
 ### Functional tests
 The code's proper functioning can be tested with `go test -v` from the `code/implementation` directory.
-This command executed all test cases in the `*_test.go` files which ensure the functions' correctness.
+This command executes all test cases in the `*_test.go` files which ensure the functions' correctness.
 If all goes well, the output should be `PASS`.
 Note that the test cases `TestAggregate` from `signature_test.go` and `TestUpdate` from `lightclient_test.go` demonstrate the most important behaviors of the functions herein, namely signature aggregation and light client cross-epoch updating.
 
