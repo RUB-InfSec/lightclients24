@@ -231,7 +231,7 @@ Additionally, if the experiments are performed on separate machines (in the WAN 
 The plots can be generated once all experiments are completed and when the output files are all moved to `evaluation/plots` on the **server machine** and renamed as described above.
 In total, the needed files are the following.
 - For our scheme: `ours_128_wan_fullnode.log`, `ours_128_wan_results.log`.
-- For the PoPoS baseline: `popos_128_wan_fullnode_<i>_<length>`, `popos_128_wan_results_<length>.json` for all `<i>` from 0 to 7 and for all power-of-two `<length>` from 2 to 1024.
+- For the PoPoS baseline: `popos_128_wan_fullnode_<i>_<LENGTH>`, `popos_128_wan_results_<LENGTH>.json` for all `<i>` from 0 to 7 and for all power-of-two `<LENGTH>` from 2 to 1024.
 - For the CSSV baseline: `cssv_128.txt`.
 
 Then, run the below commands from `evaluation/plots` on the server machine.
