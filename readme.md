@@ -177,7 +177,7 @@ Additionally, if the experiments are performed on separate machines (in the WAN 
 
 ### 2. Experiments for PoPoS
 #### Server
-- **For each** power-of-two chain length `<LENGTH>` from $2^{10} = 1024$ down to $2^1 = 2$ (ie, the following steps must be repeated 10 times):
+- **For each** power-of-two chain length `<LENGTH>` from $2^{10} = 1024$ down to $2^1 = 2$ (ie, the following steps are repeated 10 times):
   - In line 12 in `compose.yml`, set the chain length to `<LENGTH>`.
     If the server machine has less than 8 CPU cores, modify the CPUs assigned to each of the containers in `compose.yml` (`cpuset` fields).
     (The benchmarks in our paper used 16 independent cores per container.)
@@ -202,7 +202,7 @@ Additionally, if the experiments are performed on separate machines (in the WAN 
         do
             ssh -fN -L $i:127.0.0.1:$i <IP-ADDRESS>
         done
-- **For each** power-of-two chain length `<LENGTH>` from $2^{10} = 1024$ down to $2^2 = 2$ (ie, the following steps must be repeated 10 times):
+- **For each** power-of-two chain length `<LENGTH>` from $2^{10} = 1024$ down to $2^2 = 2$ (ie, the following steps are repeated 10 times):
   - In line 17 in `evaluation/baselines/popos/implementation/benchmark/multiple-server.ts`, change the chain length (`size` variable) to `<LENGTH>`.
   - After the **server machine** is set up for this chain length, execute the following commands from `evaluation/baselines/popos/implementation` to start the experiment:
 
