@@ -127,10 +127,10 @@ Server machine       <---TCP/SSH--->   Client machine
 ```
 
 ### Dependencies
-Overall, the server machine should have the following programs available to run all experiments.
+Overall, the **server machine** should have the following programs available to run all experiments.
 - Docker.
 
-The client machine should have the following programs available:
+The **client machine** should have the following programs available:
 - Go >=1.22.
   - Installing multiple Go versions (in case there already is a different version on the system), can be done as explained [here](https://go.dev/doc/manage-install); this requires git to be installed as well.
 - (Only for the PoPoS baseline) Node.js 21 with npm 10.8, yarn 1.22, typescript 5.6.
@@ -215,7 +215,7 @@ done
 ```
 - **For each** power-of-two chain length `<LENGTH>` from $2^{10} = 1024$ down to $2^2 = 2$:
   - In line 17 in `evaluation/baselines/popos/implementation/benchmark/multiple-server.ts`, change the chain length (`size` variable) to `<LENGTH>`.
-  - After the *server machine* is set up for this chain length, execute the following commands from `evaluation/baselines/popos/implementation` to start the experiment:
+  - After the **server machine** is set up for this chain length, execute the following commands from `evaluation/baselines/popos/implementation` to start the experiment:
 ```
 yarn install
 yarn build
@@ -243,7 +243,7 @@ tail -f cssv_128.txt
 - To be able to generate the plots, move `evaluation/baselines/cssv/cssv_128.txt` to `evaluation/plots`.
 
 ### 4. Generating the plots
-The plots can be generated once all experiments are completed and when the output files are all moved to `evaluation/plots` on the server machine and renamed as described above.
+The plots can be generated once all experiments are completed and when the output files are all moved to `evaluation/plots` on the **server machine** and renamed as described above.
 In total, the needed files are the following.
 - For our scheme: `ours_128_wan_fullnode.log`, `ours_128_wan_results.log`.
 - For the PoPoS baseline: `popos_128_wan_fullnode_<i>_<length>`, `popos_128_wan_results_<length>.json` for all `<i>` from 0 to 7 and for all power-of-two `<length>` from 2 to 1024.
