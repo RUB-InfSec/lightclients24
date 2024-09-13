@@ -181,7 +181,7 @@ Additionally, if the experiments are performed on separate machines (in the WAN 
   - In line 12 in `compose.yml`, set the chain length to `<LENGTH>`.
     If the server machine has less than 8 CPU cores, modify the CPUs assigned to each of the containers in `compose.yml` (`cpuset` fields).
     (The benchmarks in our paper used 16 independent cores per container.)
-  - Run the following command.
+  - Run the following command from `evaluation/baselines/popos`.
     The process is complete once all 7 "dishonest" containers output `Server listening on port 3679`.
     The first time, all dummy data is generated, which might take up to 15 minutes on an Apple M2 machine.
 
@@ -194,6 +194,7 @@ Additionally, if the experiments are performed on separate machines (in the WAN 
 
 #### Client
 - Run the following command from `evaluation/baselines/popos/implementation`.
+
       mkdir results
 - If the server is **not** running on the same machine as the client but is instead reachable at the IP address `<IP-ADDRESS>` (eg, over a WAN), set up SSH port forwarding by running the following commands (assuming a working SSH connection from the client machine to the server machine).
 
