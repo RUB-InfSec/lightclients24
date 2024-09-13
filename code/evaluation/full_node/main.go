@@ -362,7 +362,7 @@ func (p *testProver) startRPC(addr string) {
 func main() {
 	var prover *testProver
 	directory := "."
-	logfile, err := os.OpenFile(filepath.Join(directory, "fullnode.log"), os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	logfile, err := os.OpenFile(filepath.Join(directory, "ours_128_wan_fullnode.log"), os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 	if err != nil {
 		panic(err)
 	}

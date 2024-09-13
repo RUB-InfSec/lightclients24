@@ -126,7 +126,7 @@ export default async function getApp() {
       res.end(CommitteeSSZ.serialize(leaf));
     }
     const end =performance.now()
-    fs.appendFileSync(path.join(__dirname, `../../src/store/data/timer-${chainSize}.log`),`${chainSize} "/sync-committee/mmr/leaf/:period" ${end-start}ms\n`)
+    fs.appendFileSync(path.join(__dirname, `../../src/store/data/popos_128_wan_fullnode_X.log`),`${chainSize} "/sync-committee/mmr/leaf/:period" ${end-start}ms\n`)
   });
 
   app.get('/sync-committee/mmr/leafHashes', function (req, res) {
@@ -140,7 +140,7 @@ export default async function getApp() {
     res.set('Content-Type', 'application/octet-stream');
     res.end(LeafHashesSSZ.serialize(leaves));
     const end =performance.now()
-    fs.appendFileSync(path.join(__dirname, `../../src/store/data/timer-${chainSize}.log`),`${chainSize} "/sync-committee/mmr/leafHashes" ${end-start}ms\n`)
+    fs.appendFileSync(path.join(__dirname, `../../src/store/data/popos_128_wan_fullnode_X.log`),`${chainSize} "/sync-committee/mmr/leafHashes" ${end-start}ms\n`)
   });
 
   app.get('/sync-committee/mmr', function (req, res) {
@@ -152,7 +152,7 @@ export default async function getApp() {
     res.set('Content-Type', 'application/octet-stream');
     res.end(MMRInfoSSZ.serialize(mmrInfo));
     const end =performance.now()
-    fs.appendFileSync(path.join(__dirname, `../../src/store/data/timer-${chainSize}.log`),`${chainSize} "/sync-committee/mmr" ${end-start}ms\n`)
+    fs.appendFileSync(path.join(__dirname, `../../src/store/data/popos_128_wan_fullnode_X.log`),`${chainSize} "/sync-committee/mmr" ${end-start}ms\n`)
   });
 
   app.get('/sync-committee/mmr/:treeRoot/node/:nodeHash', function (req, res) {
@@ -172,7 +172,7 @@ export default async function getApp() {
     );
 
     const end =performance.now()
-    fs.appendFileSync(path.join(__dirname, `../../src/store/data/timer-${chainSize}.log`),`${chainSize} "/sync-committee/mmr/:treeRoot/node/:nodeHash" ${end-start}ms\n`)
+    fs.appendFileSync(path.join(__dirname, `../../src/store/data/popos_128_wan_fullnode_X.log`),`${chainSize} "/sync-committee/mmr/:treeRoot/node/:nodeHash" ${end-start}ms\n`)
   });
 
   app.get('/sync-updates', function (req, res) {
@@ -193,7 +193,7 @@ export default async function getApp() {
     res.end(updatesBytes);
 
     const end =performance.now()
-    fs.appendFileSync(path.join(__dirname, `../../src/store/data/timer-${chainSize}.log`),`${chainSize} "/sync-updates" ${end-start}ms\n`)
+    fs.appendFileSync(path.join(__dirname, `../../src/store/data/popos_128_wan_fullnode_X.log`),`${chainSize} "/sync-updates" ${end-start}ms\n`)
   });
 
   app.post('/config', function (req, res) {
@@ -214,7 +214,7 @@ export default async function getApp() {
 
     prover.setConfig(_chainSize, _treeDegree);
     const end =performance.now()
-    fs.appendFileSync(path.join(__dirname, `../../src/store/data/timer-${chainSize}.log`),`${chainSize} "/config" ${end-start} ms\n`)
+    fs.appendFileSync(path.join(__dirname, `../../src/store/data/popos_128_wan_fullnode_X.log`),`${chainSize} "/config" ${end-start} ms\n`)
     return res.json({
       success: true,
     });

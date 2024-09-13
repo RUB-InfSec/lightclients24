@@ -156,7 +156,7 @@ Additionally, if the experiments are performed on separate machines (in the WAN 
 
       tail -f evaluation/full_node/fullnode.log
 - After the `tester_client` (see below) is done issuing requests, the full node's logs are available as `fullnode.log` in the `evaluation/full_node` directory.
-  To be able to generate the plots, rename `fullnode.log` to `ours_128_wan_fullnode.log` and move it to `evaluation/plots`.
+  To be able to generate the plots, move `ours_128_wan_fullnode.log` to `evaluation/plots`.
 - To benchmark longer dummy chains like in the paper, in line 387 in `evaluation/full_node/main.go` increase the value `1 << 10` to the desired longer chain length.
 
 #### Client
@@ -173,7 +173,7 @@ Additionally, if the experiments are performed on separate machines (in the WAN 
       ./tester_client 127.0.0.1 7890 10 50
   The experiment is done when the client exits.
 - The client's logs are available as `results.log` in the `evaluation/tester_client` directory.
-  To be able to generate the plots, rename `results.log` to `ours_128_wan_results.log` and move it to the server machine's `evaluation/plots` directory (in the server's file system; **not** in the Docker container).
+  To be able to generate the plots, move `ours_128_wan_results.log` to the server machine's `evaluation/plots` directory (in the server's file system; **not** in the Docker container).
 
 ### 2. Experiments for PoPoS
 #### Server
@@ -187,8 +187,9 @@ Additionally, if the experiments are performed on separate machines (in the WAN 
 
         docker compose build --no-cache && docker compose up
   - Issue requests from the client as described below.
-  - **For each** `<i>` from 1 to 7, move `evaluation/baselines/popos/dishonest<i>_data/timer_<LENGTH>.log` to `evaluation/plots` and rename it to `popos_128_wan_fullnode_<i>_<LENGTH>.log`.
-  - Move `evaluation/baselines/popos/honest_data/timer_<LENGTH>.log` to `evaluation/plots` and rename it to `popos_128_wan_fullnode_0_<LENGTH>.log`.
+
+- **For each** `<i>` from 1 to 7, rename `evaluation/baselines/popos/dishonest<i>_data/popos_128_wan_fullnode_X.log` to `popos_128_wan_fullnode_<i>.log` and move it to `evaluation/plots`.
+- Rename `evaluation/baselines/popos/honest_data/popos_128_wan_fullnode_X.log` to `popos_128_wan_fullnode_0.log` and move it to `evaluation/plots`.
 - To benchmark for more than $2^{10}$ epochs, set the desired length(s) in line 30 in `evaluation/baselines/popos/implementation/src/prover/router.ts`.
   Note that, in this case, the initial dummy data generation will also take longer.
 
@@ -210,7 +211,7 @@ Additionally, if the experiments are performed on separate machines (in the WAN 
         yarn build
         node dist/benchmark/multiple-server.js
   - The experiment is done when the client exits.
-  - Move `evaluation/baselines/popos/implementation/results/dummy-data-8-128-<LENGTH>-100-1.json` to the server machine's `evaluation/plots` directory and rename it to `popos_128_wan_results_<LENGTH>.json`.
+  - Move `evaluation/baselines/popos/implementation/results/popos_128_wan_results_<LENGTH>.json` to the server machine's `evaluation/plots` directory.
 
 ### 3. Experiments for CSSV
 #### Server

@@ -45,7 +45,7 @@ func (f proverEndpoint) Update(i *big.Int) (sig.LightClientProof, error) {
 func main() {
 	// set up logging
 	directory := "."
-	logfile, err := os.OpenFile(filepath.Join(directory, "results.log"), os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	logfile, err := os.OpenFile(filepath.Join(directory, "ours_128_wan_results.log"), os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 	if err != nil {
 		panic(err)
 	}

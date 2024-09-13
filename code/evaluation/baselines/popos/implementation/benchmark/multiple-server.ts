@@ -22,8 +22,8 @@ const batchSize = 1;
 const herokuAppRandomID = 'chocolate';
 
 const benchmarkOutput = `../../results/${
-  isDummy ? 'dummy' : 'beacon'
-}-data-${proverCount}-${committeeSize}-${size}-${treeDegree}-${batchSize}.json`;
+  isDummy ? '' : 'beacon-'
+}popos_128_wan_results_${size}.json`;
 const absBenchmarkOutput = path.join(__dirname, benchmarkOutput);
 let benchmarks: any[] = [];
 if (fs.existsSync(absBenchmarkOutput)) benchmarks = require(benchmarkOutput);
