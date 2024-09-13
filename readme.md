@@ -121,10 +121,9 @@ We use Docker containers and, especially important for our WAN measurements, SSH
 We assume that this repository is cloned to (1) the "server machine" and (2) the "client machine".
 It is possible to perform the evaluation on one machine, in which case the repository can be cloned to two separate locations on the same machine (then, "client machine" and "server machine" just refer to these two locations).
 For our paper, we used two machines connected in the following topology over a WAN:
-```
-Server machine       <---TCP/SSH--->   Client machine
-(Multicore server)                     (M2 MacBook)
-```
+
+    Server machine       <---TCP/SSH--->   Client machine
+    (Multicore server)                     (M2 MacBook)
 
 ### Dependencies
 Overall, the **server machine** should have the following programs available to run all experiments.
@@ -135,10 +134,9 @@ The **client machine** should have the following programs available:
   - Installing multiple Go versions (in case there already is a different version on the system), can be done as explained [here](https://go.dev/doc/manage-install); this requires git to be installed as well.
 - (Only for the PoPoS baseline) Node.js 21 with npm 10.8, yarn 1.22, typescript 5.6.
   Freshly install the latter two packages as
-```
-npm install -g yarn
-npm install -g typescript
-```
+
+      npm install -g yarn
+      npm install -g typescript
   Note: while the above versions are recommended, we also successfully tested the code with Node.js 18.
 
 Additionally, if the experiments are performed on separate machines (in the WAN setting), the client needs to be able to connect with the server over SSH on ports 7890,7770-7777 (ports can be adjusted by modifying the respective `ssh` commands shown below).
@@ -146,13 +144,16 @@ Additionally, if the experiments are performed on separate machines (in the WAN 
 ### 1. Experiments for our scheme
 #### Server
 - From the `code` directory, run the following command.
+
       docker run -it -v .:/data -p 7890:7890 golang:1.22
 - In the container, use the following commands to start the full node.
   For the first time, the full node will take a while to create all dummy data (approximately 15 minutes on an Apple M1 Pro machine).
+
       cd /data/evaluation/full_node
       go build -o fullnode main.go
       ./fullnode
 - Optionally, from outside the container, view the progress logs of the full node as follows:
+
       tail -f evaluation/full_node/fullnode.log
 - After the `tester_client` (see below) is done issuing requests, the full node's logs are available as `fullnode.log` in the `evaluation/full_node` directory.
   To be able to generate the plots, rename `fullnode.log` to `ours_128_wan_fullnode.log` and move it to `evaluation/plots`.
@@ -161,11 +162,14 @@ Additionally, if the experiments are performed on separate machines (in the WAN 
 #### Client
 - Copy `nextk0.gob` from the server machine's `evaluation/full_node` directory to the client machine's `evaluation/tester_client` directory.
 - Compile the `tester_client` application with the following command from `evaluation/tester_client`:
+
       go build -o tester_client main.go
 - If the full node is **not** running on the same machine as the client but is instead reachable at the IP address `<IP-ADDRESS>` (eg, over a WAN), set up SSH port forwarding by running the following command (assuming a working SSH connection from the client machine to the server machine):
+
       ssh -fN -L 7890:127.0.0.1:7890 <IP-ADDRESS>
 - Run the following command from `evaluation/tester_client` to launch the experiments.
   This might take approximately 30 minutes to complete (on an Apple M1 Pro machine).
+
       ./tester_client 127.0.0.1 7890 10 50
   The experiment is done when the client exits.
 - The client's logs are available as `results.log` in the `evaluation/tester_client` directory.
@@ -180,6 +184,7 @@ Additionally, if the experiments are performed on separate machines (in the WAN 
   - Run the following command.
     The process is complete once all 7 "dishonest" containers output `Server listening on port 3679`.
     The first time, all dummy data is generated, which might take up to 15 minutes on an Apple M2 machine.
+
         docker compose build --no-cache && docker compose up
   - Issue requests from the client as described below.
   - **For each** `<i>` from 1 to 7, move `evaluation/baselines/popos/dishonest<i>_data/timer_<LENGTH>.log` to `evaluation/plots` and rename it to `popos_128_wan_fullnode_<i>_<LENGTH>`.
@@ -191,6 +196,7 @@ Additionally, if the experiments are performed on separate machines (in the WAN 
 - Run the following command from `evaluation/baselines/popos/implementation`.
       mkdir results
 - If the server is **not** running on the same machine as the client but is instead reachable at the IP address `<IP-ADDRESS>` (eg, over a WAN), set up SSH port forwarding by running the following commands (assuming a working SSH connection from the client machine to the server machine).
+
         for (( i=7770; i<=7777; i++ ))
         do
             ssh -fN -L $i:127.0.0.1:$i <IP-ADDRESS>
@@ -198,6 +204,7 @@ Additionally, if the experiments are performed on separate machines (in the WAN 
 - **For each** power-of-two chain length `<LENGTH>` from $2^{10} = 1024$ down to $2^2 = 2$ (ie, the following steps must be repeated 10 times):
   - In line 17 in `evaluation/baselines/popos/implementation/benchmark/multiple-server.ts`, change the chain length (`size` variable) to `<LENGTH>`.
   - After the **server machine** is set up for this chain length, execute the following commands from `evaluation/baselines/popos/implementation` to start the experiment:
+
         yarn install
         yarn build
         node dist/benchmark/multiple-server.js
@@ -207,11 +214,14 @@ Additionally, if the experiments are performed on separate machines (in the WAN 
 ### 3. Experiments for CSSV
 #### Server
 - Start a Docker container with the following command from `evaluation/baselines/cssv`.
+
       docker run -it -v .:/code rust:1.77
 - In the container, execute the following command to launch the local experiment (where light client proofs are created and verified on the same machine).
+
       cd /code
       cargo run --release --features "parallel print-trace" --example recursive 7 1024 > cssv_128.txt
 - Optionally, from outside the container, view the progress logs as follows:
+
       tail -f cssv_128.txt
   The experiment is done after 1024 iterations as indicated by the progress logs.
 - To be able to generate the plots, move `evaluation/baselines/cssv/cssv_128.txt` to `evaluation/plots`.
@@ -224,6 +234,7 @@ In total, the needed files are the following.
 - For the CSSV baseline: `cssv_128.txt`.
 
 Then, run the below commands from `evaluation/plots` on the server machine.
+
     docker build -t lightclientplots .
     docker run -it -v .:/data lightclientplots
 
@@ -232,5 +243,6 @@ Then, run the below commands from `evaluation/plots` on the server machine.
 
 #### Stopping Docker containers
 - For the containers started with `docker compose`, from the same directory where the `docker compose` command was run, run the following command.
+
       docker compose down
 - Other Docker containers will stop once exiting any running process (eg, with `Ctrl-C`) and closing the shell (eg, with `Ctrl-D`).
